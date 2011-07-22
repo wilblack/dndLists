@@ -1,30 +1,29 @@
-<h2>What is it?</h2>
+What is it?
+
 dndLists is a drag and drop list plugin for JQuery. It was designed as a tool to sort word lists by dragging and dropping indivdual words. Word lists can then be written to a Javascript array or to a hidden input in a specified form.
 
-<a href="http://173.255.213.55/wb/media/js/dnd-lists-0.01.js">Get code here</a>
 
-<a href="http://thedatamind.com/dndLists/basic.html">See demo here</a>
+See demo here:
+http://thedatamind.com/dndLists/basic.html
 
-<h2>Reference</h2>
+ --- Reference ---
 
-<h3>Sources and Sinks</h3>
+ - Sources and Sinks -
 dndLists uses a source/sink models when determining what list items can be placed in what lists. A list can be a <em>source</em> and/or a <em>sink</em>. In a  <em>source</em> list items can be dragged from the list. The items can only be dropped into a list that is a <em>sink</em> for that their <em>source</em> list. To make a list a <em>sink</em> you use the "sinkFor" method and pass in a dom selector string of the lists you want to accept items from. 
 
-<h3>Create a list</h3>
-<code>
+ - Create a list -
+
 $("ul").dndList();
-</code>
-
-<h3>Methods</h3>
 
 
-<h4>addWord</h4>
- <dd>Takes a string and wraps it in LI and appends to the list.
-<em>Example: Add the word "shoelace" to the list with id "list" </em>
-<code> 
+ -- Methods --
+
+ - addWord
+Takes a string and wraps it in LI and appends to the list.
+Example: Add the word "shoelace" to the list with id "list" 
+ 
   $("#list").dndList('addWord','shoelace');
-</code>
-</dd>
+
 
 <h4>populate</h4>
 <dd>Takes an array of text strings and populates a list with them.</dd>
