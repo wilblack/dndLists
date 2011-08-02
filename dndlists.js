@@ -99,10 +99,43 @@ Usage:
 		});
 	
 		},
-	  addWord : function(word){
+	  addWordOLD : function(word){
+		/* DEPRECATED by Wil Black 8/2/2011 - USE ADD ITEM INSTEAD
+		 * This is used to add a single word to a list as text. If more then
+		 * text needs to be added use addItem.
+		 */	
 		this.find(".placeholder").remove();
 		this.append("<li>"+word+"</li>");
 		},
+	  
+	  addItem : function(item){
+		/* Takes in an object or a string and populates the list
+		 * INPUTS:
+		 *  item [STRING] 
+		 *  item [OBJECT]
+		 * 		  
+		 * If item is a an objects
+		 * Keys:
+		 * 	 text - REQUIRED Will be put in the visible part of the list <li>text</li>
+		 *   id - becomes the LI's id attribute
+		 *   value - becomes the LI's value attribute
+		 *   name - becomes the LI's name attribute
+		 * 
+		 */			
+		this.find(".placeholder").remove(); //Remove placeholder text if present
+		this.append("<li></li>");
+		var li = this.find("li:last");
+		if (typeof(item)=='object'){
+			if (item.text==undefined) return false;
+			$(li).text(item.text);
+			if (item.id) $(li).attr("id",item.id);
+			if (item.value) $(li).val(item.value);
+			if (item.name) $(li).attr("name",item.name);
+		} else if (typeof(item)=='string') {
+			this.find(".placeholder").remove();
+			this.append("<li>"+item+"</li>");
+		}
+	  },
 	  
 		
 	  multiselect : function(choices, selected){
@@ -132,9 +165,14 @@ Usage:
 			selectedList.closest(".ui-widget").find(".ui-widget-header").text("Selected");
 		},
 		
-	  selected : function (){
+	  selected : function (format){
+			/* This is called in the mulitselect list. Returns all selected values
+			 * 
+			 */
 			selectedList = this.closest(".dnd-multiselect").find(".dnd-selected");
-			return selectedList.dndList("toArray");
+			if (format=='array') return selectedList.dndList("toArray");
+			if (format=='json') return selectedList.dndList("toJSON");
+			if (format=='url') return selectedList.dndList("toURL");
 		},	
 	  source: function(){
 			this.find("li").draggable({
@@ -158,6 +196,9 @@ Usage:
 			});
 		},
 		toArray: function(){
+			/* Returns the list item text as an array of strings. Ignores all attributes.
+			 * If you need access to attributes use toJSON
+			 */
 			var ls = this.find("li");
 			var rs = [];
 			for (i=0;i<ls.length;i++){
@@ -165,9 +206,54 @@ Usage:
 			}
 			return rs;
 		},	
-		populate: function(words){
-			for (var i=0;i<words.length;i++){
-				this.dndList("addWord",words[i]);	
+		
+		toJSON: function(){
+			/* Returns the list item as a JSON object 
+			 * Object will have the following keys if atributes are present
+			 *   text
+			 *   id
+			 *   value
+			 *   name
+			 */
+			var rs = [];
+			var items = this.find("li");
+			for (i=0; i<items.length;i++){
+				var row={};
+				if ($(items).eq(i).text() ) row.text=$(items).eq(i).text();
+				if ($(items).eq(i).attr("id")) row.id=$(items).eq(i).attr("id");
+				if ($(items).eq(i).attr("value") ) row.value = $(items).eq(i).attr("value");
+				if ($(items).eq(i).attr("name")) row.name = $(items).eq(i).attr("name");
+				rs.push(row);
+			}
+			return rs;
+		},
+		
+		toURL: function(attribute){
+			/* Returns a URI encoded string containg the values of the list seperated by a '|'.
+			 * An attribute can be given:
+			 *   id
+			 *   value
+			 *   name
+			 * If no attribute is given the lists text is used.
+			 * 
+			 */
+			var rs='';
+			var items=this.find("li");
+			for (i=0; i<items.length;i++){
+				if (arguments.length==0){
+					rs+=$(items).eq(i).text()+"|";
+				}else{
+					rs+=$(items).eq(i).attr(attribute)+"|";
+				}
+					
+			}
+			rs=rs.slice(0,-1);
+			return encodeURI(rs);
+		},
+		
+		populate: function(items){
+			for (var i=0;i<items.length;i++){
+				this.dndList("addItem",items[i]);	
 			}
 			this.dndList("source");
 		},
