@@ -199,7 +199,7 @@ Usage:
 			/* Returns the list item text as an array of strings. Ignores all attributes.
 			 * If you need access to attributes use toJSON
 			 */
-			var ls = this.find("li");
+			var ls = this.find("li:not(.placeholder)");
 			var rs = [];
 			for (i=0;i<ls.length;i++){
 				rs.push(ls[i].textContent);
@@ -216,7 +216,7 @@ Usage:
 			 *   name
 			 */
 			var rs = [];
-			var items = this.find("li");
+			var items = this.find("li:not(.placeholder)");
 			for (i=0; i<items.length;i++){
 				var row={};
 				if ($(items).eq(i).text() ) row.text=$(items).eq(i).text();
@@ -238,7 +238,8 @@ Usage:
 			 * 
 			 */
 			var rs='';
-			var items=this.find("li");
+			var items=this.find("li:not(.placeholder)");
+			
 			for (i=0; i<items.length;i++){
 				if (arguments.length==0){
 					rs+=$(items).eq(i).text()+"|";
