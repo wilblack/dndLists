@@ -75,7 +75,7 @@ Usage:
 	    this.closest(".ui-widget").find(":header").detach();
 	    if (!html) html += "Header";
 	    
-	    html+="<span class='sortBtn right fauxLink' ><h6>Sort</h6></span>";
+	    //html+="<span class='sortBtn right fauxLink' ><h6>Sort</h6></span>";
 	    this.closest(".ui-widget").find(".ui-widget-header").html(html).find("h6").attr("style","margin:0; float:right;");;
 	    this.closest(".ui-widget").find(".sortBtn").bind("click",function(){$(this).closest(".ui-widget").find("ul").dndList('sort');})
 	    
@@ -123,11 +123,12 @@ Usage:
 		 * 
 		 */			
 		this.find(".placeholder").remove(); //Remove placeholder text if present
-		this.append("<li></li>");
-		var li = this.find("li:last");
+		
 		if (typeof(item)=='object'){
 			if (item.text==undefined) return false;
-			$(li).text(item.text);
+			this.append("<li>"+item.text+"</li>");
+			var li = this.find("li:last");
+			
 			if (item.id) $(li).attr("id",item.id);
 			if (item.value) $(li).val(item.value);
 			if (item.name) $(li).attr("name",item.name);
