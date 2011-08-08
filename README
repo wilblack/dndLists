@@ -1,3 +1,9 @@
+Written by Wil Black, wilblack21@gmail.com
+Copyright (c) 2011
+This work was originally inspired by my work at Advanced Research Corporation, http://oregonarc.com.
+You are free to use this software for commercial and non-commercial use, free of charge provided you 
+follow the FreeBSD License (see source code files).
+
 What is it?
 
 dndLists is a drag and drop list plugin for JQuery. It was designed as a tool to sort word lists by dragging and dropping indivdual words. Word lists can then be written to a Javascript array or to a hidden input in a specified form.
